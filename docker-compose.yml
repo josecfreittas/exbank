@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  database_dev:
+    image: postgres:12-alpine
+    volumes:
+      - database_dev:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=exbank_dev
+      - POSTGRES_USER=exbank
+      - POSTGRES_PASSWORD=fuKyZ2T3txLLYEpexQkg
+    ports:
+      - "15432:5432"
+
+volumes:
+  database_dev:

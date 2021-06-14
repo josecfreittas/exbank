@@ -1,10 +1,11 @@
 import Config
 # Configure your database
 config :exbank, Exbank.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "exbank",
+  password: "fuKyZ2T3txLLYEpexQkg",
   database: "exbank_dev",
   hostname: "localhost",
+  port: 15432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
