@@ -33,14 +33,19 @@ defmodule Exbank.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, github: "phoenixframework/phoenix", override: true},
+      {:phoenix,
+       github: "phoenixframework/phoenix",
+       override: true,
+       ref: "c030fb01276b806e62a6b1467c4dc57bd4f60d86"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.5"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:bcrypt_elixir, "~> 2.3"},
+      {:joken, "~> 2.3.0"}
     ]
   end
 
