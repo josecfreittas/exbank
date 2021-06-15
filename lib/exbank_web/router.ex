@@ -7,5 +7,8 @@ defmodule ExbankWeb.Router do
 
   scope "/api", ExbankWeb do
     pipe_through :api
+
+    post "/accounts", AccountController, :create
+    post "/accounts/login", AccountController, :login
   end
 end

@@ -1,0 +1,24 @@
+@host = http://localhost:4000/
+@cpf1 = 047.080.070-43
+@cpf2 = 648.432.950-86
+@pass = pass1234
+
+POST {{ host }}api/accounts HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Joana Doe",
+    "cpf": "{{ cpf1 }}",
+    "password": "{{ pass }}"
+}
+
+###
+
+# @name login
+POST {{ host }}api/accounts/login HTTP/1.1
+content-type: application/json
+
+{
+    "cpf": "{{ cpf1 }}",
+    "password": "{{ pass }}"
+}

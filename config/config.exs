@@ -11,11 +11,13 @@ config :exbank,
   ecto_repos: [Exbank.Repo],
   generators: [binary_id: true]
 
+config :joken, default_signer: "secret"
+
 # Configures the endpoint
 config :exbank, ExbankWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "eez5hNhXjzywrnL6b1366gHORvtZ6d/mzNbpbgzl2B3E+yBScK0QUqxlaYfKhEHQ",
-  render_errors: [view: ExbankWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [view: ExbankWeb.ErrorView, format: "json", accepts: ~w(json), layout: false],
   pubsub_server: Exbank.PubSub,
   live_view: [signing_salt: "yy56XltZ"]
 
