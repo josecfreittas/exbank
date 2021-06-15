@@ -5,10 +5,11 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :exbank, Exbank.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "exbank",
+  password: "9UnY8swnJkAoVrZKBB2U",
   database: "exbank_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
+  port: 25432,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
