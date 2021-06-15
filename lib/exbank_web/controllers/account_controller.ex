@@ -22,17 +22,24 @@ defmodule ExbankWeb.AccountController do
   end
 
   def login(conn, params) do
-    account = Accounts.get_account!(:cpf, params["cpf"])
+    with %Account{:password => password_hash} <- Accounts.get_account(:cpf, params["cpf"]) do
+      case Bcrypt.verify_pass(params["password"], password_hash) do
+        true ->
+          {:ok, access, _clains} = Auth.generate_access(params["cpf"])
+          render(conn, "auth.json", access: access)
 
-    case Bcrypt.verify_pass(params["password"], account[:password]) do
-      true ->
-        {:ok, access, _clains} = Auth.generate_access(params["cpf"])
-        render(conn, "auth.json", access: access)
-
+        _ ->
+          login_error(conn)
+      end
+    else
       _ ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(401, Jason.encode!(%{error: "Failed to log in."}))
+        login_error(conn)
     end
+  end
+
+  defp login_error(conn) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(401, Jason.encode!(%{error: "Failed to log in."}))
   end
 end

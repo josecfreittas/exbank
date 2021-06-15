@@ -12,31 +12,15 @@ defmodule Exbank.Accounts do
     Repo.all(Account)
   end
 
-  def get_account!(:cpf, cpf) do
-    query =
-      from(
-        account in "accounts",
-        where: account.cpf == ^cpf,
-        select: [:balance, :cpf, :name, :password]
-      )
-
-    Repo.one!(query)
+  def get_account(:cpf, cpf) do
+    Repo.get_by(Account, cpf: cpf)
   end
 
   def create_account(attrs \\ %{}) do
-    attrs =
-      case attrs do
-        %{:password => password} when not is_nil(password) ->
-          %{:password_hash => password_hash} = Bcrypt.add_hash(password)
-          %{attrs | :password => password_hash}
+    attrs = for {key, val} <- attrs, into: %{}, do: {to_string(key), val}
 
-        %{"password" => password} when not is_nil(password) ->
-          %{:password_hash => password_hash} = Bcrypt.add_hash(password)
-          %{attrs | "password" => password_hash}
-
-        _ ->
-          attrs
-      end
+    %{:password_hash => password_hash} = Bcrypt.add_hash(attrs["password"])
+    attrs = %{attrs | "password" => password_hash}
 
     %Account{}
     |> Account.changeset(attrs)

@@ -10,5 +10,7 @@ defmodule Exbank.Repo.Migrations.CreateAccounts do
 
       timestamps()
     end
+
+    create constraint(:accounts, :balance_must_be_positive, check: "balance >= 0")
   end
 end

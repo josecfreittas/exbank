@@ -18,5 +18,6 @@ defmodule Exbank.Accounts.Account do
     |> cast(attrs, [:cpf, :name, :password])
     |> validate_required([:cpf, :name, :password])
     |> unique_constraint(:cpf, name: :accounts_pkey)
+    |> check_constraint(:balance, name: :balance_must_be_positive)
   end
 end

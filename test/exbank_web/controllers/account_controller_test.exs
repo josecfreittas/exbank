@@ -15,7 +15,7 @@ defmodule ExbankWeb.AccountControllerTest do
   describe "create account" do
     test "renders account when data is valid", %{conn: conn} do
       conn = post(conn, Routes.account_path(conn, :create), @create_attrs)
-      assert %{"cpf" => cpf} = json_response(conn, 201)["data"]
+      assert %{"cpf" => _cpf} = json_response(conn, 201)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

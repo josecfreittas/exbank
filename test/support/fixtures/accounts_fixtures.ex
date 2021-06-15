@@ -13,7 +13,7 @@ defmodule Exbank.AccountsFixtures do
       |> Enum.into(%{
         cpf: "745.297.360-75",
         name: "some name",
-        password: "123password"
+        password: "somepassword"
       })
       |> Exbank.Accounts.create_account()
 
