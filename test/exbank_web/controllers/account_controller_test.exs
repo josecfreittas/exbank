@@ -2,11 +2,11 @@ defmodule ExbankWeb.AccountControllerTest do
   use ExbankWeb.ConnCase
 
   @create_attrs %{
-    cpf: "some cpf",
-    name: "some name",
-    password: "somepassword"
+    "cpf" => "some cpf",
+    "name" => "some name",
+    "password" => "somepassword"
   }
-  @invalid_attrs %{cpf: nil, name: nil, password: nil}
+  @invalid_attrs %{"cpf" => 10, "name" => 5, "password" => true}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

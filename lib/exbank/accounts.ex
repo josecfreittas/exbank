@@ -16,14 +16,18 @@ defmodule Exbank.Accounts do
     Repo.get_by(Account, cpf: cpf)
   end
 
-  def create_account(attrs \\ %{}) do
-    attrs = for {key, val} <- attrs, into: %{}, do: {to_string(key), val}
+  def create_account(attrs) do
+    case Account.changeset(%Account{}, attrs) do
+      %{:valid? => true} ->
+        %{:password_hash => password_hash} = Bcrypt.add_hash(attrs["password"])
+        attrs = %{attrs | "password" => password_hash}
 
-    %{:password_hash => password_hash} = Bcrypt.add_hash(attrs["password"])
-    attrs = %{attrs | "password" => password_hash}
+        %Account{}
+        |> Account.changeset(attrs)
+        |> Repo.insert()
 
-    %Account{}
-    |> Account.changeset(attrs)
-    |> Repo.insert()
+      changeset ->
+        {:error, changeset}
+    end
   end
 end

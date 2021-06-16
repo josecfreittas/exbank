@@ -11,9 +11,9 @@ defmodule Exbank.AccountsFixtures do
     {:ok, account} =
       attrs
       |> Enum.into(%{
-        cpf: "745.297.360-75",
-        name: "some name",
-        password: "somepassword"
+        "cpf" => "745.297.360-75",
+        "name" => "some name",
+        "password" => "somepassword"
       })
       |> Exbank.Accounts.create_account()
 
