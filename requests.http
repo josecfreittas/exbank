@@ -22,3 +22,20 @@ content-type: application/json
     "cpf": "{{ cpf1 }}",
     "password": "{{ pass }}"
 }
+
+###
+
+GET {{ host }}api/transactions HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{ login.response.body.access }}
+
+###
+
+POST {{ host }}api/transactions HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{ login.response.body.access }}
+
+{
+    "recipient_cpf": "{{ cpf2 }}",
+    "amount": 500
+}
