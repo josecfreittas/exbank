@@ -16,6 +16,6 @@ defmodule ExbankWeb.Router do
 
     get "/transactions", TransactionController, :index
     post "/transactions", TransactionController, :create
-    post "/transactions/:id", TransactionController, :show
+    get "/transactions/:id", TransactionController, :show
   end
 end

@@ -31,6 +31,7 @@ Authorization: Bearer {{ login.response.body.access }}
 
 ###
 
+# @name new_transaction
 POST {{ host }}api/transactions HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{ login.response.body.access }}
@@ -39,3 +40,9 @@ Authorization: Bearer {{ login.response.body.access }}
     "recipient_cpf": "{{ cpf2 }}",
     "amount": 500
 }
+
+###
+
+GET {{ host }}api/transactions/{{ new_transaction.response.body.data.id }} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{ login.response.body.access }}

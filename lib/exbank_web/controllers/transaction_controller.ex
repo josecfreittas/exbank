@@ -28,7 +28,15 @@ defmodule ExbankWeb.TransactionController do
   end
 
   def show(conn, %{"id" => id}) do
+    account_cpf = conn.assigns.account_cpf
     transaction = Transactions.get_transaction!(id)
-    render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
+
+    cond do
+      transaction.sender_cpf === account_cpf || transaction.recipient_cpf === account_cpf ->
+        render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
+
+      true ->
+        send_resp(conn, 401, "Unauthorized")
+    end
   end
 end
