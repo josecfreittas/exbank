@@ -8,7 +8,7 @@ defmodule ExbankWeb.TransactionController do
 
   def index(conn, _params) do
     transactions = Transactions.list_account_transactions(:account_cpf, conn.assigns.account_cpf)
-    render(conn, "index.json", transactions: transactions)
+    render(conn, "index.json", transactions: transactions, account_cpf: conn.assigns.account_cpf)
   end
 
   def create(conn, transaction_params) do
@@ -18,7 +18,7 @@ defmodule ExbankWeb.TransactionController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.transaction_path(conn, :show, transaction))
-      |> render("show.json", transaction: transaction)
+      |> render("show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
     else
       {:error, message} ->
         conn
@@ -29,6 +29,6 @@ defmodule ExbankWeb.TransactionController do
 
   def show(conn, %{"id" => id}) do
     transaction = Transactions.get_transaction!(id)
-    render(conn, "show.json", transaction: transaction)
+    render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
   end
 end
