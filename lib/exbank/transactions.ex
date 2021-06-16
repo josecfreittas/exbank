@@ -15,7 +15,7 @@ defmodule Exbank.Transactions do
         transaction in "transactions",
         where:
           transaction.sender_cpf == ^account_cpf or transaction.recipient_cpf == ^account_cpf,
-        select: [:id, :amount, :sender_cpf, :recipient_cpf]
+        select: [:id, :amount, :sender_cpf, :recipient_cpf, :inserted_at, :updated_at]
       )
 
     Repo.all(query)

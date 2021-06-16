@@ -35,7 +35,9 @@ defmodule ExbankWeb.TransactionView do
       amount: transaction.amount,
       sender_cpf: transaction.sender_cpf,
       recipient_cpf: transaction.recipient_cpf,
-      operation: operation
+      operation: operation,
+      inserted_at: transaction.inserted_at,
+      updated_at: transaction.updated_at,
     }
   end
 end
