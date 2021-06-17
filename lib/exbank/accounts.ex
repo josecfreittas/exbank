@@ -12,7 +12,7 @@ defmodule Exbank.Accounts do
     Repo.all(Account)
   end
 
-  def get_account(:cpf, cpf) do
+  def get_account(cpf) do
     Repo.get_by(Account, cpf: cpf)
   end
 

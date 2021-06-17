@@ -27,6 +27,13 @@ content-type: application/json
 
 ###
 
+# @name profile
+GET {{ host }}api/accounts/me HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{ login.response.body.access }}
+
+###
+
 # @name list_transactions
 GET {{ host }}api/transactions?date_start=2021-05-05&date_end=2021-10-10 HTTP/1.1
 content-type: application/json

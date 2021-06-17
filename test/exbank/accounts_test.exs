@@ -12,7 +12,7 @@ defmodule Exbank.AccountsTest do
 
     test "get_account!/1 returns the account with given cpf" do
       fixture = account_fixture()
-      account = Accounts.get_account(:cpf, fixture.cpf)
+      account = Accounts.get_account(fixture.cpf)
       assert account.balance == fixture.balance
       assert account.cpf == fixture.cpf
       assert account.name == fixture.name

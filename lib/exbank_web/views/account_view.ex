@@ -10,8 +10,7 @@ defmodule ExbankWeb.AccountView do
     %{
       cpf: account.cpf,
       name: account.name,
-      balance: account.balance,
-      password: account.password
+      balance: account.balance
     }
   end
 

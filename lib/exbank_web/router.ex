@@ -14,6 +14,8 @@ defmodule ExbankWeb.Router do
 
     pipe_through [:auth]
 
+    get "/accounts/me", AccountController, :show
+
     get "/transactions", TransactionController, :index
     post "/transactions", TransactionController, :create
     get "/transactions/:id", TransactionController, :show
