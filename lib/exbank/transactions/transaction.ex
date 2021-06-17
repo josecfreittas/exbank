@@ -16,7 +16,7 @@ defmodule Exbank.Transactions.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:amount, :sender_cpf, :recipient_cpf])
+    |> cast(attrs, [:amount, :sender_cpf, :recipient_cpf, :chargebacked])
     |> validate_required([:amount, :recipient_cpf])
     |> check_constraint(:amount, name: :balance_must_be_positive)
   end

@@ -4,6 +4,7 @@
 @cpf3 = 295.581.050-90
 @pass = pass1234
 
+# @name register
 POST {{ host }}api/accounts HTTP/1.1
 content-type: application/json
 
@@ -26,7 +27,8 @@ content-type: application/json
 
 ###
 
-GET {{ host }}api/transactions HTTP/1.1
+# @name list_transactions
+GET {{ host }}api/transactions?date_start=2021-05-05&date_end=2021-10-10 HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{ login.response.body.access }}
 
@@ -44,12 +46,14 @@ Authorization: Bearer {{ login.response.body.access }}
 
 ###
 
+# @name transaction_details
 GET {{ host }}api/transactions/{{ new_transaction.response.body.data.id }} HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{ login.response.body.access }}
 
 ###
 
+# @name transaction_chargeback
 POST {{ host }}api/transactions/{{ new_transaction.response.body.data.id }}/chargeback HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{ login.response.body.access }}

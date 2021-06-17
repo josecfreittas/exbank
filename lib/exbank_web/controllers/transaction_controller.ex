@@ -6,8 +6,8 @@ defmodule ExbankWeb.TransactionController do
 
   action_fallback ExbankWeb.FallbackController
 
-  def index(conn, _params) do
-    transactions = Transactions.list_account_transactions(:account_cpf, conn.assigns.account_cpf)
+  def index(conn, params) do
+    transactions = Transactions.list_account_transactions(conn.assigns.account_cpf, params)
     render(conn, "index.json", transactions: transactions, account_cpf: conn.assigns.account_cpf)
   end
 

@@ -10,12 +10,25 @@ defmodule Exbank.Transactions do
   alias Exbank.Transactions.Transaction
   alias Exbank.Accounts.Account
 
-  def list_account_transactions(:account_cpf, account_cpf) do
+  defp date_start(query, %{"date_start" => date}) do
+    date = Date.from_iso8601!(date)
+    query |> where([t], fragment("?::date", t.inserted_at) >= ^date)
+  end
+
+  defp date_start(query, _), do: query
+
+  defp date_end(query, %{"date_end" => date}) do
+    date = Date.from_iso8601!(date)
+    query |> where([t], fragment("?::date", t.inserted_at) <= ^date)
+  end
+
+  defp date_end(query, _), do: query
+
+  def list_account_transactions(account_cpf, filters) do
     query =
       from(
-        transaction in "transactions",
-        where:
-          transaction.sender_cpf == ^account_cpf or transaction.recipient_cpf == ^account_cpf,
+        t in "transactions",
+        where: t.sender_cpf == ^account_cpf or t.recipient_cpf == ^account_cpf,
         select: [
           :id,
           :amount,
@@ -24,8 +37,11 @@ defmodule Exbank.Transactions do
           :chargebacked,
           :inserted_at,
           :updated_at
-        ]
+        ],
+        order_by: [desc: :inserted_at]
       )
+      |> date_start(filters)
+      |> date_end(filters)
 
     Repo.all(query)
   end
