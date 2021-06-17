@@ -6,6 +6,7 @@ defmodule Exbank.Transactions do
   import Ecto.Query, warn: false
   alias Exbank.Repo
 
+  import Ecto.Changeset, only: [change: 2]
   alias Exbank.Transactions.Transaction
   alias Exbank.Accounts.Account
 
@@ -15,7 +16,15 @@ defmodule Exbank.Transactions do
         transaction in "transactions",
         where:
           transaction.sender_cpf == ^account_cpf or transaction.recipient_cpf == ^account_cpf,
-        select: [:id, :amount, :sender_cpf, :recipient_cpf, :inserted_at, :updated_at]
+        select: [
+          :id,
+          :amount,
+          :sender_cpf,
+          :recipient_cpf,
+          :chargebacked,
+          :inserted_at,
+          :updated_at
+        ]
       )
 
     Repo.all(query)
@@ -60,7 +69,33 @@ defmodule Exbank.Transactions do
     end
   end
 
-  def change_transaction(%Transaction{} = transaction, attrs \\ %{}) do
-    Transaction.changeset(transaction, attrs)
+  def chargeback(transaction) do
+    %{sender_cpf: sender_cpf, recipient_cpf: recipient_cpf, amount: amount} = transaction
+
+    try do
+      {:ok, result} =
+        Repo.transaction(fn ->
+          from(account in Account,
+            update: [inc: [balance: ^(-amount)]],
+            where: account.cpf == ^recipient_cpf
+          )
+          |> Repo.update_all([])
+
+          from(account in Account,
+            update: [inc: [balance: ^amount]],
+            where: account.cpf == ^sender_cpf
+          )
+          |> Repo.update_all([])
+
+          transaction
+          |> change(%{chargebacked: true})
+          |> Repo.update()
+        end)
+
+      result
+    rescue
+      _ ->
+        {:error, "The transaction failed."}
+    end
   end
 end

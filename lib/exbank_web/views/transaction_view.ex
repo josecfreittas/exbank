@@ -38,6 +38,7 @@ defmodule ExbankWeb.TransactionView do
       operation: operation,
       inserted_at: transaction.inserted_at,
       updated_at: transaction.updated_at,
+      chargebacked: transaction.chargebacked,
     }
   end
 end

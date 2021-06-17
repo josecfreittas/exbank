@@ -8,6 +8,7 @@ defmodule Exbank.Transactions.Transaction do
     field :amount, :integer
     field :sender_cpf, :string
     field :recipient_cpf, :string
+    field :chargebacked, :boolean, default: false
 
     timestamps()
   end

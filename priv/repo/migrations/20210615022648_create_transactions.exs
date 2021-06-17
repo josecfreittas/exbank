@@ -7,6 +7,7 @@ defmodule Exbank.Repo.Migrations.CreateTransactions do
       add :amount, :integer
       add :sender_cpf, references(:accounts, on_delete: :nothing, type: :string, column: :cpf)
       add :recipient_cpf, references(:accounts, on_delete: :nothing, type: :string, column: :cpf)
+      add :chargebacked, :boolean, default: false
 
       timestamps()
     end

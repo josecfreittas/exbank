@@ -1,6 +1,7 @@
 @host = http://localhost:4000/
 @cpf1 = 047.080.070-43
 @cpf2 = 648.432.950-86
+@cpf3 = 295.581.050-90
 @pass = pass1234
 
 POST {{ host }}api/accounts HTTP/1.1
@@ -44,5 +45,11 @@ Authorization: Bearer {{ login.response.body.access }}
 ###
 
 GET {{ host }}api/transactions/{{ new_transaction.response.body.data.id }} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{ login.response.body.access }}
+
+###
+
+POST {{ host }}api/transactions/{{ new_transaction.response.body.data.id }}/chargeback HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{ login.response.body.access }}

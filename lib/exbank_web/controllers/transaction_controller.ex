@@ -32,11 +32,38 @@ defmodule ExbankWeb.TransactionController do
     transaction = Transactions.get_transaction!(id)
 
     cond do
-      transaction.sender_cpf === account_cpf || transaction.recipient_cpf === account_cpf ->
-        render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
+      !has_access(transaction, account_cpf) ->
+        send_resp(conn, 401, "Unauthorized")
 
       true ->
-        send_resp(conn, 401, "Unauthorized")
+        render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
     end
   end
+
+  def chargeback(conn, %{"id" => id}) do
+    account_cpf = conn.assigns.account_cpf
+    transaction = Transactions.get_transaction!(id)
+
+    cond do
+      !has_access(transaction, account_cpf) ->
+        send_resp(conn, 401, "Unauthorized")
+
+      transaction.recipient_cpf !== account_cpf ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(400, Jason.encode!(%{error: "Only the recipient can make a chargeback."}))
+
+      transaction.chargebacked ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(400, Jason.encode!(%{error: "Changeback already made."}))
+
+      true ->
+        Transactions.chargeback(transaction)
+        send_resp(conn, 200, "Success.")
+    end
+  end
+
+  defp has_access(%{sender_cpf: sender_cpf, recipient_cpf: recipient_cpf}, account_cpf),
+    do: account_cpf in [sender_cpf, recipient_cpf]
 end
