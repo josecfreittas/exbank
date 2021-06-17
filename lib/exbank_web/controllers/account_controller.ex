@@ -15,7 +15,7 @@ defmodule ExbankWeb.AccountController do
     else
       {:error, changeset} ->
         conn
-        |> put_view(ExbankWeb.ErrorView)
+        |> put_view(ExbankWeb.ChangesetView)
         |> put_status(400)
         |> render("error.json", changeset: changeset)
     end
