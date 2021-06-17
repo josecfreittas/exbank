@@ -39,7 +39,8 @@ defmodule ExbankWeb.AccountController do
 
   defp login_error(conn) do
     conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(401, Jason.encode!(%{error: "Failed to log in."}))
+    |> put_view(ExbankWeb.ErrorView)
+    |> put_status(400)
+    |> render("error.json", message: "Failed to log in.")
   end
 end

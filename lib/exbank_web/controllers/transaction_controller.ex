@@ -22,8 +22,9 @@ defmodule ExbankWeb.TransactionController do
     else
       {:error, message} ->
         conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(400, Jason.encode!(%{error: message}))
+        |> put_view(ExbankWeb.ErrorView)
+        |> put_status(400)
+        |> render("error.json", message: message)
     end
   end
 
@@ -33,7 +34,10 @@ defmodule ExbankWeb.TransactionController do
 
     cond do
       !has_access(transaction, account_cpf) ->
-        send_resp(conn, 401, "Unauthorized")
+        conn
+        |> put_view(ExbankWeb.ErrorView)
+        |> put_status(401)
+        |> render("error.json", message: "Unauthorized")
 
       true ->
         render(conn, "show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
@@ -46,7 +50,10 @@ defmodule ExbankWeb.TransactionController do
 
     cond do
       !has_access(transaction, account_cpf) ->
-        send_resp(conn, 401, "Unauthorized")
+        conn
+        |> put_view(ExbankWeb.ErrorView)
+        |> put_status(401)
+        |> render("error.json", message: "Unauthorized")
 
       transaction.recipient_cpf !== account_cpf ->
         conn
