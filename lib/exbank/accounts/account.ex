@@ -6,7 +6,7 @@ defmodule Exbank.Accounts.Account do
   @foreign_key_type :string
   schema "accounts" do
     field :name, :string
-    field :balance, :integer, default: 0
+    field :balance, :integer, default: 500
     field :password, :string
 
     timestamps()

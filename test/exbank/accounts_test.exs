@@ -22,7 +22,7 @@ defmodule Exbank.AccountsTest do
       valid_attrs = %{"cpf" => "some cpf", "name" => "some name", "password" => "somepassword"}
 
       assert {:ok, %Account{} = account} = Accounts.create_account(valid_attrs)
-      assert account.balance == 0
+      assert account.balance == 500
       assert account.cpf == "some cpf"
       assert account.name == "some name"
     end

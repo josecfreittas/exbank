@@ -40,19 +40,17 @@ O projeto vem com uma suíte de testes unitários e de integração. Para execut
 O projeto acompanha um arquivo chamado `requests.http`. Esse arquivo contem a descrição de todas as endpoints que o projeto comporta, desde o fluxo de criação de contas e login, até transações e estornos. É possível fazer requisições HTTP para as endpoints descritas utilizando à extensão [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) para o editor [VSCode](https://code.visualstudio.com).
 
 
-| Método | Rota                                | Descrição                                                                                  | Payload                   | Query                    |
-|--------|-------------------------------------|--------------------------------------------------------------------------------------------|---------------------------|--------------------------|
-| POST   | `/api/accounts`                     | Criação de conta                                                                           | `name`, `cpf`, `password` |                          |
-| POST   | `/api/accounts/login`               | Geração do token de acesso                                                                 | `cpf`, `password`         |                          |
-| GET    | `/api/accounts/me`                  | Retorna informações da conta                                                               |                           |                          |
-| GET    | `/api/transactions`                 | Retorna uma lista com as transações feitas pelo usuário logado                             |                           | `date_start`, `date_end` |
-| POST   | `/api/transactions`                 | Efetua o envio de um valor em **centavos** da conta logada para outra conta especificada       | `recipient_cpf`, `amount` |                          |
-| GET    | `/api/transactions/:id`             | Retorna informações sobre uma transação específica                                         |                           |                          |
-| POST   | `/api/transactions/:id/chargeback`  | Efetua o estorno de uma transferência recebida pelo usuário logado                         |                           |                          |
+| Método | Rota                               | Descrição                                                                                  | Payload                   | Query                    |
+|--------|------------------------------------|--------------------------------------------------------------------------------------------|---------------------------|--------------------------|
+| POST   | `/api/accounts`                    | Criação de conta. Novas contas começam com saldo de 500 __centavos__ para facilitar testes.| `name`, `cpf`, `password` |                          |
+| POST   | `/api/accounts/login`              | Geração do token de acesso                                                                 | `cpf`, `password`         |                          |
+| GET    | `/api/accounts/me`                 | Retorna informações da conta                                                               |                           |                          |
+| GET    | `/api/transactions`                | Retorna uma lista com as transações feitas pelo usuário logado                             |                           | `date_start`, `date_end` |
+| POST   | `/api/transactions`                | Efetua o envio de um valor em __centavos__ da conta logada para outra conta especificada   | `recipient_cpf`, `amount` |                          |
+| GET    | `/api/transactions/:id`            | Retorna informações sobre uma transação específica                                         |                           |                          |
+| POST   | `/api/transactions/:id/chargeback` | Efetua o estorno de uma transferência recebida pelo usuário logado                         |                           |                          |
 
-
-
-
+. 
 
 O token `access` recebido pela endpoint `/api/accounts/login` deverá ser ser enviado via header para toda requisição que necessite de autenticação:  
 > Authorization: Bearer `access`

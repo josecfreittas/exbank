@@ -48,7 +48,7 @@ Authorization: Bearer {{ login.response.body.access }}
 
 {
     "recipient_cpf": "{{ cpf2 }}",
-    "amount": 500
+    "amount": 50
 }
 
 ###

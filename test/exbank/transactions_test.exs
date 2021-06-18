@@ -26,7 +26,7 @@ defmodule Exbank.TransactionsTest do
       })
 
       valid_attrs = %{
-        "amount" => 42,
+        "amount" => 50,
         "recipient_cpf" => recipient_cpf,
         "sender_cpf" => sender_cpf
       }

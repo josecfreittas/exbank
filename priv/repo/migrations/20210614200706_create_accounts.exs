@@ -5,7 +5,7 @@ defmodule Exbank.Repo.Migrations.CreateAccounts do
     create table(:accounts, primary_key: false) do
       add :cpf, :string, primary_key: true
       add :name, :string
-      add :balance, :integer, default: 0
+      add :balance, :integer, default: 500
       add :password, :string
 
       timestamps()
