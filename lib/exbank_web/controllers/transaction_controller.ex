@@ -55,19 +55,20 @@ defmodule ExbankWeb.TransactionController do
         |> put_status(401)
         |> render("error.json", message: "Unauthorized")
 
-      transaction.recipient_cpf !== account_cpf ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(400, Jason.encode!(%{error: "Only the recipient can make a chargeback."}))
-
-      transaction.chargebacked ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(400, Jason.encode!(%{error: "Changeback already made."}))
-
       true ->
-        Transactions.chargeback(transaction)
-        send_resp(conn, 200, "Success.")
+        with {:ok, %Transaction{} = transaction} <-
+               Transactions.chargeback(transaction, account_cpf) do
+          conn
+          |> put_status(200)
+          |> put_resp_header("location", Routes.transaction_path(conn, :show, transaction))
+          |> render("show.json", transaction: transaction, account_cpf: conn.assigns.account_cpf)
+        else
+          {:error, message} ->
+            conn
+            |> put_view(ExbankWeb.ErrorView)
+            |> put_status(400)
+            |> render("error.json", message: message)
+        end
     end
   end
 

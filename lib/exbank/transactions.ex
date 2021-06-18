@@ -85,7 +85,12 @@ defmodule Exbank.Transactions do
     end
   end
 
-  def chargeback(transaction) do
+  def chargeback(%{sender_cpf: account_cpf}, account_cpf),
+    do: {:error, "Only the recipient can make a chargeback."}
+
+  def chargeback(%{chargebacked: true}, _account_cpf), do: {:error, "Changeback already made."}
+
+  def chargeback(%{recipient_cpf: account_cpf} = transaction, account_cpf) do
     %{sender_cpf: sender_cpf, recipient_cpf: recipient_cpf, amount: amount} = transaction
 
     try do
