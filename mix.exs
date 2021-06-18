@@ -36,7 +36,7 @@ defmodule Exbank.MixProject do
       {:phoenix,
        github: "phoenixframework/phoenix",
        override: true,
-       ref: "c030fb01276b806e62a6b1467c4dc57bd4f60d86"},
+       ref: "8e0f87ed22af359f040bb34e7a0e4718eed7b46d"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.5"},
       {:postgrex, ">= 0.0.0"},

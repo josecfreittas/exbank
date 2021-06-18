@@ -50,7 +50,6 @@ O projeto acompanha um arquivo chamado `requests.http`. Esse arquivo contem a de
 | GET    | `/api/transactions/:id`            | Retorna informações sobre uma transação específica                                          |                           |                          |
 | POST   | `/api/transactions/:id/chargeback` | Efetua o estorno de uma transferência recebida pelo usuário logado                          |                           |                          |
 
-. 
 
 O token `access` recebido pela endpoint `/api/accounts/login` deverá ser ser enviado via header para toda requisição que necessite de autenticação:  
 > Authorization: Bearer `access`

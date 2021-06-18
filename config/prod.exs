@@ -10,14 +10,16 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :exbank, ExbankWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "ideal-plush-lungfish.gigalixirapp.com", port: 443],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
 # Do not print debug messages in production
 config :logger, level: :info
 
 # ## SSL Support
-#
+config :exbank, ExbankWeb.Repo, ssl: true
+
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
 #
