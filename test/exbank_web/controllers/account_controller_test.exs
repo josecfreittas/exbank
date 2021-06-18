@@ -23,4 +23,26 @@ defmodule ExbankWeb.AccountControllerTest do
       assert json_response(conn, 400)["errors"] != %{}
     end
   end
+
+  describe "login" do
+    test "try to make login with correct credentials ", %{conn: conn} do
+      attrs = %{
+        "cpf" => "659.856.080-26",
+        "name" => "Generic Name",
+        "password" => "genericpassword"
+      }
+
+      post(conn, Routes.account_path(conn, :create), attrs)
+      conn = post(conn, Routes.account_path(conn, :login), attrs)
+      assert json_response(conn, 200)["assigns"]["access"] != %{}
+    end
+    test "try to make login with incorrect credentials ", %{conn: conn} do
+      attrs = %{
+        "cpf" => "390.438.880-01",
+        "password" => "genericpassword"
+      }
+      conn = post(conn, Routes.account_path(conn, :login), attrs)
+      assert json_response(conn, 400)["error"] != %{}
+    end
+  end
 end
