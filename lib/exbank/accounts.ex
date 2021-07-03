@@ -18,8 +18,8 @@ defmodule Exbank.Accounts do
 
   def create_account(attrs) do
     case Account.changeset(%Account{}, attrs) do
-      %{:valid? => true} ->
-        %{:password_hash => password_hash} = Bcrypt.add_hash(attrs["password"])
+      %{valid?: true} ->
+        %{password_hash: password_hash} = Bcrypt.add_hash(attrs["password"])
         attrs = %{attrs | "password" => password_hash}
 
         %Account{}

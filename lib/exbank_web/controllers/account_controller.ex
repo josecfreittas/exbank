@@ -28,7 +28,7 @@ defmodule ExbankWeb.AccountController do
   end
 
   def login(conn, params) do
-    with %Account{:password => password_hash} <- Accounts.get_account(params["cpf"]) do
+    with %Account{password: password_hash} <- Accounts.get_account(params["cpf"]) do
       case Bcrypt.verify_pass(params["password"], password_hash) do
         true ->
           {:ok, access, _clains} = Auth.generate_access(params["cpf"])

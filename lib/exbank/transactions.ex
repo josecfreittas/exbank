@@ -53,7 +53,7 @@ defmodule Exbank.Transactions do
 
   def create_transaction(attrs) do
     case Transaction.changeset(%Transaction{}, attrs) do
-      %{:valid? => true} ->
+      %{valid?: true} ->
         try do
           {:ok, result} =
             Repo.transaction(fn ->
@@ -80,7 +80,7 @@ defmodule Exbank.Transactions do
             {:error, "The transaction failed."}
         end
 
-      %{:valid? => false} ->
+      %{valid?: false} ->
         {:error, "Invalid transaction."}
     end
   end
